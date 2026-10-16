@@ -1,172 +1,435 @@
-# Portfolio Website — Eya Badri
+# Portfolio Website
 
-Personal e-portfolio of an Electrical Engineering student at ENIT (embedded systems, TinyML, robotics).
+A professional personal e-portfolio for an Electrical Engineering student at ENIT.
 
-**No frameworks. No build tools. Just HTML + CSS + JavaScript.**
-
-🌐 **Live site:** `https://YOUR-USERNAME.github.io/REPO-NAME/` *(replace after step 3 below)*
+**Zero frameworks. Zero build tools. Just HTML + CSS + JavaScript.**
 
 ---
 
-## 1. Put the site online (GitHub Pages)
+## Quick Start — Preview the Website Locally
 
-GitHub only shows the *code* of a repository. To let anyone open the *website*, enable **GitHub Pages**:
+You need **one** of these installed on your computer: Python, Node.js, or just a web browser.
 
-1. Make sure `index.html` is at the **root** of the repository (not inside a sub-folder). The repo should look like this:
+### Option 1: Python (easiest)
+1. Open a terminal / command prompt
+2. Navigate to the `portfolio` folder:
+   ```bash
+   cd portfolio
    ```
-   index.html   css/   js/   assets/   .nojekyll   README.md
+3. Run:
+   ```bash
+   python -m http.server 8000
    ```
-2. On GitHub, open your repository → **Settings → Pages**.
-3. Under **Build and deployment → Source**, choose **Deploy from a branch**, then select branch `main` and folder `/ (root)`. Click **Save**.
-4. Wait 1–2 minutes and refresh the page. GitHub shows your link at the top:
-   - repo named `YOUR-USERNAME.github.io` → `https://YOUR-USERNAME.github.io/`
-   - any other repo name → `https://YOUR-USERNAME.github.io/REPO-NAME/`
-5. Put this link on your LinkedIn, CV and emails. Every `git push` updates the site automatically.
+4. Open your browser and go to: **http://localhost:8000**
 
-**Requirements**
-- The repository must be **public** (GitHub Pages is free for public repos).
-- File names are **case-sensitive** online: `Profile.jpg` ≠ `profile.jpg`. Keep the paths in `js/data.js` identical to the real file names.
-- Keep paths **relative** (`assets/images/profile.jpg`, never `/assets/...`), so the site works under `/REPO-NAME/`.
-- The empty `.nojekyll` file tells GitHub to serve the files as they are. Do not delete it.
-
-**Everything on a public site is public**: your email, LinkedIn link and `assets/cv/cv.pdf` can be read and downloaded by anyone. Remove anything you don't want shared (phone number, address…) from the CV before uploading it.
-
----
-
-## 2. Preview locally (before pushing)
-
-Open a terminal in the project folder (the one containing `index.html`).
-
-**Python**
+### Option 2: Node.js
 ```bash
-python -m http.server 8000
-```
-Open **http://localhost:8000**
-
-**Node.js**
-```bash
+cd portfolio
 node server.js
 ```
-Open **http://127.0.0.1:8090**
+Then open: **http://127.0.0.1:8090**
 
-Opening `index.html` by double-click also works, but a local server is closer to the real site.
-
-To test on your phone, use the same Wi-Fi and open `http://YOUR-COMPUTER-IP:8000`.
+### Option 3: Double-click index.html
+Just open `index.html` directly in your browser. Most features work, but the local server is recommended.
 
 ---
 
-## 3. Project structure
+## 📁 Project Structure
 
 ```
-├── index.html          Page skeleton (sections are filled by JavaScript)
-├── css/style.css       All styling
+portfolio/
+├── index.html              ← Main page (you rarely need to edit this)
+├── css/
+│   └── style.css           ← All visual styling (you rarely need to edit this)
 ├── js/
-│   ├── data.js         ⭐ ALL your content — edit this file
-│   └── main.js         Rendering logic (rarely edited)
+│   ├── data.js             ← ⭐ EDIT THIS FILE to change content
+│   └── main.js             ← Rendering logic (you rarely need to edit this)
 ├── assets/
-│   ├── cv/cv.pdf       Your CV (Download CV buttons)
-│   └── images/         profile.jpg + project-*.jpg (project-*.svg are fallbacks)
-├── server.js           Optional local server (Node.js)
-├── .nojekyll           Needed for GitHub Pages
-└── README.md
+│   ├── images/             ← Put your photos and project images here
+│   │   └── profile.jpg     ← Your profile photo goes here
+│   └── cv/                 ← Put your CV/resume PDF here
+│       └── cv.pdf          ← Your CV file goes here
+├── server.js               ← Local development server (optional)
+└── README.md               ← This file
 ```
 
 ---
 
-## 4. Editing your content (`js/data.js`)
+## ✏️ HOW TO EDIT YOUR CONTENT
 
-Edit the file, save, refresh the browser. Each block below is a key of the `SITE` object.
+### ⭐ THE ONE FILE YOU NEED TO KNOW: `js/data.js`
 
-| Section | Key | What to edit |
-|---|---|---|
-| Name, hero text, email, LinkedIn | `personal` | `name`, `initials`, `heroTitleLine1-3`, `heroDescription`, `email`, `linkedin`, `cvFile` |
-| About + photo + interests | `about` | `intro`, `paragraphs`, `photo`, `interests` |
-| Education | `education` | `date`, `current`, `title`, `institution`, `description`, `tags` |
-| Projects | `projects` | see below |
-| Experience | `experience` | `title`, `company`, `date`, `description`, `tags` |
-| Skills | `skills` | categories with `items` |
-| Associations | `activities` | `title`, `role`, `description` |
-| Contact | `contact` | `email`, `linkedin`, `linkedinLabel`, `cvFile`, `message` |
+**Almost everything you want to change is in `js/data.js`.**
 
-Keep the same email, LinkedIn and CV path in `personal` **and** `contact`.
+Open this file in any text editor (Notepad, VS Code, Sublime Text, etc.) and edit the values. Your changes appear when you refresh the browser.
 
-### Add or change a project
+---
 
-Copy an existing block in `projects` and edit it:
+### 1. Where to Change Your Name and Introduction
+
+Open `js/data.js` and look for the `SITE.personal` section near the top:
 
 ```js
-{
-  id: "my-new-project",        // unique, no spaces
-  tier: 2,                     // 1 = featured, 2 = standard, 3 = compact
-  title: "My New Project",
-  subtitle: "Short subtitle",
-  description: `What the project is.`,
-  tech: ["Python", "STM32"],
-  focus: "Main focus areas",
-  status: "completed",         // "completed" or "in-progress"
-  icon: "code",
-  context: "University Project",
-  details: {                   // set to null to hide "View Details"
-    problem: `...`, objective: `...`, role: "...",
-    architecture: ["..."], implementation: ["..."], results: ["..."],
-    challenges: ["..."], learnings: ["..."],
-    metrics: [{ value: "95%", label: "Accuracy" }],
-    image: "assets/images/project-name.jpg",   // or null
-  },
+personal: {
+    name: "YOUR FULL NAME",           // ← Put your name here
+    initials: "YN",                    // ← Your initials, e.g. "AB"
+    title: "Electrical Engineering Student",
+    institution: "ENIT",
+    
+    // Hero section (the big text on the homepage)
+    heroTagline: "Electrical Engineering Student — ENIT",
+    heroTitleLine1: "Engineering the",
+    heroTitleLine2: "Future of Embedded",     // ← This line gets the blue accent color
+    heroTitleLine3: "Intelligent Systems",
+    heroDescription: `I design and build systems...`,  // ← Your intro paragraph
 },
 ```
 
-Project images: save them in `assets/images/` (`.jpg`/`.png`, ≈1200 px wide max) and reference them with a relative path.
-
-### Skills use text levels, not numbers
+Also update your name in the `contact` section at the bottom of `data.js`:
 
 ```js
-{ name: "STM32 (G4, F4 series)", level: "Core", description: "Development & debugging" }
+contact: {
+    email: "your-email@example.com",        // ← Your email
+    linkedin: "https://linkedin.com/in/you", // ← Your LinkedIn URL
+},
 ```
-Levels used by the site: `"Core"`, `"Working Knowledge"`, `"Familiar"`. Each level has its own badge style (`.skill-level__badge--core`, `--working-knowledge`, `--familiar` in `css/style.css`). If you invent a new level, add a matching style.
-
-### Available icons
-
-`chip, layers, robot, bolt, clock, cube, code, wave, drone, battery, terminal, wrench, briefcase, lightning, gear, mail, linkedin, file, grid, arrow, close` (defined in the `ICONS` object at the bottom of `data.js`).
-
-### Replace photo or CV
-
-Overwrite `assets/images/profile.jpg` (portrait, 3:4 recommended) or `assets/cv/cv.pdf` and keep the same file names — or change the path in `data.js`.
-
-### Add a new section (e.g. Publications)
-
-1. `index.html`: add a `<section class="section" id="publications">` with a container `<div id="publicationsContent"></div>`.
-2. `data.js`: add `publications: [ { title: "...", journal: "...", year: 2026 } ],`.
-3. `main.js`: write `renderPublications()` that fills `#publicationsContent`, call it in the `DOMContentLoaded` listener, and add `{ label: 'Publications', href: '#publications' }` in `renderNav()`.
 
 ---
 
-## 5. Customization
+### 2. Where to Change Your Profile Photo
 
-In `css/style.css`:
-```css
-:root {
-  --color-accent: #00b4d8;
-  --color-accent-light: #48cae4;
-  --color-bg-primary: #060b18;
-  --color-bg-secondary: #0c1225;
+**Step 1:** Take your photo and save it as `profile.jpg`
+
+**Step 2:** Replace the file at:
+```
+assets/images/profile.jpg
+```
+
+**Important:** Keep the same filename (`profile.jpg`). Just overwrite the existing file.
+
+Your photo appears in the About section. It should be a portrait-style photo (3:4 ratio recommended). If the photo doesn't load, a placeholder is shown automatically.
+
+**To use a different filename**, edit `js/data.js`:
+```js
+about: {
+    photo: "assets/images/your-photo-name.jpg",  // ← Change this
+},
+```
+
+---
+
+### 3. Where to Add/Change Projects
+
+Open `js/data.js` and find the `SITE.projects` array. Each project is an object inside square brackets `[ ]`.
+
+**To add a new project**, copy an existing project block and paste it at the end:
+
+```js
+{
+    id: "my-new-project",          // Unique ID (no spaces, use hyphens)
+    tier: 2,                       // 1 = Featured (big), 2 = Standard, 3 = Compact
+    title: "My New Project",
+    subtitle: "Short subtitle",
+    description: `Describe your project here.`,
+    tech: ["Python", "STM32"],     // Technologies used
+    focus: "Main focus areas",
+    status: "completed",           // "completed" or "in-progress"
+    icon: "code",                  // Icon: chip, code, wave, drone, battery, terminal, etc.
+    context: "University Project", // Where/when you did it
+    details: {                     // Set to null to hide "View Details" button
+        problem: `What problem does this solve?`,
+        objective: `What was the goal?`,
+        role: "What did YOU do?",
+        architecture: ["Step 1...", "Step 2..."],
+        implementation: ["How you built it..."],
+        results: ["What you achieved..."],
+        challenges: ["Difficulties you faced..."],
+        learnings: ["What you learned..."],
+        metrics: [
+            { value: "95%", label: "Accuracy" },
+            { value: "2ms", label: "Latency" },
+        ],
+        image: null,  // Set to "assets/images/project-name.jpg" when you have one
+    },
+},
+```
+
+**Tier explained:**
+- `tier: 1` = Featured/Flagship project (large card, most prominent)
+- `tier: 2` = Important project (standard card)
+- `tier: 3` = Smaller project (compact card)
+
+---
+
+### 4. Where to Add/Change Education
+
+In `js/data.js`, find `SITE.education`:
+
+```js
+education: [
+    {
+        date: "2022 — Present",       // ← Your dates
+        current: true,                 // Shows green "Current" badge
+        title: "Engineering Degree in Electrical Engineering",
+        institution: "ENIT",
+        description: `What you study / learned.`,
+        tags: ["Embedded Systems", "Signal Processing"],
+    },
+    // Add more entries by copying the block above
+],
+```
+
+**To add education:** Copy one `{ }` block and paste it below.
+
+---
+
+### 5. Where to Add/Change Internships/Experience
+
+In `js/data.js`, find `SITE.experience`:
+
+```js
+experience: [
+    {
+        title: "Engineering Intern",        // Your job title
+        company: "ACTIA",                    // Company name
+        date: "Jul 2024 — Sep 2024",        // ← Your actual dates
+        description: `What you did during this internship.`,  // ← Your real responsibilities
+        tags: ["STM32", "Embedded AI"],     // Technologies you used
+    },
+    // Add more entries by copying the block above
+],
+```
+
+**Do NOT invent dates or responsibilities.** If you don't know something yet, use a placeholder like `"2024"`.
+
+---
+
+### 6. Where to Add/Change Associations
+
+In `js/data.js`, find `SITE.activities`:
+
+```js
+activities: [
+    {
+        title: "ENIT Robotics Club",
+        role: "Member",           // Your role
+        description: `What you do in this club.`,
+    },
+    // Add more entries by copying the block above
+],
+```
+
+---
+
+### 7. Where to Change Skills
+
+In `js/data.js`, find `SITE.skills`. Skills are grouped by category:
+
+```js
+skills: [
+    {
+        category: "Embedded Systems",     // Category name
+        icon: "chip",                      // Icon: chip, code, layers, bolt, wrench
+        items: [
+            { name: "STM32 (G4, F4 series)", level: 85, description: "Development & debugging" },
+            // level: 0-100 (controls the progress bar)
+            // Add more items by copying a line
+        ],
+    },
+    // Add more categories by copying the block above
+],
+```
+
+**To change a skill level**, change the `level` number (0-100).
+**To add a skill**, add a new `{ name: "...", level: 80, description: "..." }` line.
+**To remove a skill**, delete that line.
+
+---
+
+### 8. Where to Add/Change Your CV
+
+**Step 1:** Put your CV PDF at:
+```
+assets/cv/cv.pdf
+```
+
+**Step 2:** If your filename is different, update `js/data.js`:
+```js
+personal: {
+    cvFile: "assets/cv/your-file-name.pdf",  // ← Change this
+},
+// Also update in the contact section:
+contact: {
+    cvFile: "assets/cv/your-file-name.pdf",  // ← And here
+},
+```
+
+**To replace your CV later:** Just overwrite `assets/cv/cv.pdf` with your new PDF.
+
+---
+
+### 9. Where to Add Project Images
+
+**Step 1:** Put your image in `assets/images/` with a clear name:
+```
+assets/images/project-battery.jpg
+assets/images/project-drones.jpg
+```
+
+**Step 2:** In `js/data.js`, find the project and set the image:
+```js
+{
+    id: "battery-twin",
+    // ... other fields ...
+    details: {
+        // ... other details ...
+        image: "assets/images/project-battery.jpg",  // ← Set this
+    },
+},
+```
+
+**Recommended:** Use `.jpg` or `.png` files, max 1200px wide for fast loading.
+
+---
+
+### 10. Where to Change Contact Information
+
+In `js/data.js`, find `SITE.contact`:
+
+```js
+contact: {
+    email: "your-email@example.com",           // ← Your email
+    linkedin: "https://linkedin.com/in/you",   // ← Your LinkedIn URL
+    linkedinLabel: "Your LinkedIn Profile",     // ← Text shown for the link
+    cvFile: "assets/cv/cv.pdf",               // ← CV file path
+    message: "Open to opportunities, collaborations, and technical discussions",
+},
+```
+
+---
+
+### 11. How to Preview the Website Locally
+
+See the **Quick Start** section at the top of this file.
+
+**Remember:** After editing `data.js`, just **refresh your browser** (F5 or Ctrl+R).
+
+---
+
+### 12. How to Add a Completely New Section
+
+If you want to add a section that doesn't exist yet (e.g., "Publications"):
+
+**Step 1:** Add the section HTML in `index.html`:
+```html
+<!-- PUBLICATIONS -->
+<section class="section" id="publications">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__tag">&lt;publications&gt;</span>
+            <h2 class="section__title">Publications</h2>
+        </div>
+        <div id="publicationsContent"></div>
+    </div>
+</section>
+```
+
+**Step 2:** Add the data in `js/data.js`:
+```js
+// After the existing sections
+publications: [
+    { title: "Your Paper Title", journal: "Journal Name", year: 2024 },
+],
+```
+
+**Step 3:** Add a rendering function in `js/main.js`:
+```js
+function renderPublications() {
+    const el = document.getElementById('publicationsContent');
+    el.innerHTML = SITE.publications.map(pub => `
+        <div class="activity-card">
+            <h3>${pub.title}</h3>
+            <p>${pub.journal} — ${pub.year}</p>
+        </div>
+    `).join('');
 }
 ```
 
+**Step 4:** Call it in the `DOMContentLoaded` listener:
+```js
+renderPublications();  // Add this line
+```
+
+**Step 5:** Add nav link in `renderNav()` in `main.js`:
+```js
+{ label: 'Publications', href: '#publications' },
+```
+
 ---
 
-## 6. Troubleshooting
+## 🎨 Customization Tips
 
-| Problem | Fix |
+### Change the accent color
+In `css/style.css`, change:
+```css
+:root {
+    --color-accent: #00b4d8;     /* Change to your color */
+    --color-accent-light: #48cae4;
+}
+```
+
+### Change the background
+```css
+:root {
+    --color-bg-primary: #060b18;  /* Dark navy */
+    --color-bg-secondary: #0c1225;
+}
+```
+
+### Add a Google Analytics or similar script
+Add it right before `</body>` in `index.html`.
+
+---
+
+## 📋 Placeholder Values to Replace
+
+Search `js/data.js` for these and replace them:
+
+| Placeholder | What to put |
 |---|---|
-| Site shows 404 on GitHub | Check Settings → Pages is set to `main` / `/ (root)` and that `index.html` is at the repo root. Wait 2 minutes. |
-| Page loads but is empty / unstyled | A file path is wrong or has the wrong capital letters. Open the browser console (F12) to see which file fails. |
-| Photo or project image missing | File name in `data.js` must match exactly (case-sensitive). |
-| "Download CV" does nothing | Check `assets/cv/cv.pdf` exists and `cvFile` is correct in both `personal` and `contact`. |
-| Changes don't appear online | Commit **and push**, wait 1–2 minutes, then hard refresh (Ctrl+Shift+R). |
+| `[YOUR FULL NAME]` | Your real name |
+| `[YN]` | Your initials (e.g., "AB") |
+| `[your-email@example.com]` | Your email |
+| `[YOUR-LINKEDIN-URL]` | Your LinkedIn profile URL |
+| `[START YEAR] — Present` | Your enrollment year |
+| `[START YEAR] — [END YEAR]` | Your dates |
+| `[INSTITUTION NAME]` | Your school name |
+| `[START DATE] — [END DATE]` | Your internship dates |
+| `[Technology 1]` | Technologies you used |
 
 ---
 
-## Tech stack
+## ❓ Common Questions
 
-HTML5 · CSS3 (custom properties, grid, flexbox) · Vanilla JavaScript · Google Fonts (Inter, JetBrains Mono)
+**Q: I edited data.js but nothing changed!**
+A: Make sure you saved the file and refreshed your browser (Ctrl+R or F5).
+
+**Q: My photo doesn't show up!**
+A: Make sure the file is at `assets/images/profile.jpg` and the format is .jpg, .jpeg, .png, or .webp.
+
+**Q: The "Download CV" button doesn't work!**
+A: Make sure your CV is at `assets/cv/cv.pdf`.
+
+**Q: How do I see the website on my phone?**
+A: Run the local server (see Quick Start), then find your computer's IP address and open `http://YOUR-IP:8000` on your phone (both must be on the same WiFi).
+
+---
+
+## 🛠 Tech Stack
+
+- **HTML5** — semantic markup
+- **CSS3** — custom properties, grid, flexbox, animations
+- **Vanilla JavaScript** — no frameworks, no dependencies
+- **Google Fonts** — Inter + JetBrains Mono
+
+**No build tools needed. No npm. No React. No complicated setup.**
